@@ -1,16 +1,3 @@
-// import { View } from "react-native";
-// import LoginScreen from "./Screens/LoginScreen/LoginScreen";
-// import RegistrationScreen from "./Screens/RegistrationScreen/RegistrationScreen";
-
-// export default function App() {
-//   return (
-//     <View>
-//       <LoginScreen />
-//       <RegistrationScreen />
-//     </View>
-//   );
-// }
-
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import {
@@ -33,11 +20,11 @@ import AppLoading from "expo-app-loading";
 // }
 const loadApp = async () => {
   await Font.loadAsync({
-    "DancingScript-Regular": require("./assets/Fonts/DancingScript-Regular.ttf"),
+    "DancingScript-Regular": require("../../assets/Fonts/DancingScript-Regular.ttf"),
   });
 };
 
-export default function App() {
+export default function LoginScreen() {
   const [isKeyboard, setIsKeyboard] = useState(false);
   // const [state, setState] = useState(initial)
   const [email, setEmail] = useState("");
@@ -77,7 +64,7 @@ export default function App() {
       <View style={styles.container}>
         <ImageBackground
           style={styles.img}
-          source={require("./assets/img/photo.jpg")}
+          source={require("../../assets/img/photo.jpg")}
         >
           <View style={{ ...styles.form, marginBottom: isKeyboard ? 10 : 100 }}>
             <View
