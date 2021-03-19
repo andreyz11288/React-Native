@@ -10,16 +10,14 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
-
-export default function RegistrationScreen({navigation}) {
+export default function RegistrationScreen({ navigation }) {
   const [isKeyboard, setIsKeyboard] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [login, setLogin] = useState("");
- 
 
   const stateString = () => {
-    setLogin('');
+    setLogin("");
     setEmail("");
     setPassword("");
   };
@@ -29,8 +27,6 @@ export default function RegistrationScreen({navigation}) {
     console.log(login, email, password);
     stateString();
   };
-
-  
 
   return (
     <TouchableWithoutFeedback
@@ -48,18 +44,19 @@ export default function RegistrationScreen({navigation}) {
             <View
               style={{
                 ...styles.header,
-                display: isKeyboard ? 'none' : 'flex'
+                display: isKeyboard ? "none" : "flex",
               }}
             >
               <Text style={styles.headerText}>Registration Screen</Text>
-              
             </View>
-            <TouchableOpacity
-              style={{width: 50}}
-              activeOpacity={0.5}
-            >
-                    <Text style={{...styles.text, textAlign:'left'}} onPress={() => navigation.navigate('Home')}>Home</Text>
-                </TouchableOpacity>
+            <TouchableOpacity style={{ width: 50 }} activeOpacity={0.5}>
+              <Text
+                style={{ ...styles.text, textAlign: "left" }}
+                onPress={() => navigation.navigate("Home")}
+              >
+                Home
+              </Text>
+            </TouchableOpacity>
             <View>
               <Text style={styles.text}> Login</Text>
               <TextInput
@@ -79,7 +76,7 @@ export default function RegistrationScreen({navigation}) {
                 value={email}
                 onChangeText={(val) => {
                   setEmail(val);
-                }}                
+                }}
                 style={styles.input}
                 onFocus={() => {
                   setIsKeyboard(true);
@@ -109,11 +106,16 @@ export default function RegistrationScreen({navigation}) {
             </TouchableOpacity>
             <TouchableOpacity
               ouchableOpacity
-              style={{width:110, marginLeft:'auto',}}
+              style={{ width: 110, marginLeft: "auto" }}
               activeOpacity={0.5}
             >
-                    <Text style={{...styles.text, paddingTop:20}} onPress={() => navigation.navigate('Sing In')}>Go to Login</Text>
-                </TouchableOpacity>
+              <Text
+                style={{ ...styles.text, paddingTop: 20 }}
+                onPress={() => navigation.navigate("Login")}
+              >
+                Go to Login
+              </Text>
+            </TouchableOpacity>
           </View>
         </ImageBackground>
       </View>
@@ -135,7 +137,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   header: {
-   paddingTop: 30,
+    paddingTop: 30,
     justifyContent: "center",
   },
   headerText: {

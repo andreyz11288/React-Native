@@ -1,15 +1,9 @@
-
-import LoginScreen from "./Screens/Auth/LoginScreen/LoginScreen";
-import RegistrationScreen from "./Screens/Auth/RegistrationScreen/RegistrationScreen";
-import HomeScreen from "./Screens/Auth/HomeScreen/HomeScreen";
 import React, { useState } from "react";
 import {} from "react-native";
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from '@react-navigation/stack';
-
-const AuthStack = createStackNavigator();
+import MainScreen from "./Screens/Routing";
 
 const loadApp = async () => {
   await Font.loadAsync({
@@ -19,6 +13,9 @@ const loadApp = async () => {
 
 export default function App() {
   const [isReady, setIsReady] = useState(false);
+  const [isAuth, setIsAuth] = useState(false);
+
+  const main = MainScreen(true);
 
   if (!isReady) {
     return (
@@ -31,18 +28,8 @@ export default function App() {
       />
     );
   }
-  
-
-  return (
-  
-    <NavigationContainer>
-      <AuthStack.Navigator>
-        <AuthStack.Screen options={{headerShown: false}} name='Home' component={HomeScreen}/>
-        <AuthStack.Screen options={{headerShown: false}} name='Login' component={LoginScreen} />
-        <AuthStack.Screen options={{headerShown: false}} name='Registration' component={RegistrationScreen} />
-      </AuthStack.Navigator>
-     </NavigationContainer>
-      
-  );
+  const isLogin = (event) => {
+    setIsAuth(event);
+  };
+  return <NavigationContainer>{main}</NavigationContainer>;
 }
-
