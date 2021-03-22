@@ -3,7 +3,9 @@ import {} from "react-native";
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
 import { NavigationContainer } from "@react-navigation/native";
-import MainScreen from "./Screens/Routing";
+// import MainScreen from "./Screens/Routing";
+import MainScreen from "./Screens/mainScreen/MainScreen";
+import AuthScreen from "./Screens/Auth/AuthScreen";
 
 const loadApp = async () => {
   await Font.loadAsync({
@@ -13,9 +15,10 @@ const loadApp = async () => {
 
 export default function App() {
   const [isReady, setIsReady] = useState(false);
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState(true);
 
-  const main = MainScreen(true);
+  
+  
 
   if (!isReady) {
     return (
@@ -31,5 +34,5 @@ export default function App() {
   const isLogin = (event) => {
     setIsAuth(event);
   };
-  return <NavigationContainer>{main}</NavigationContainer>;
+  return <NavigationContainer>{isAuth ? <MainScreen/>:<AuthScreen/>}</NavigationContainer>;
 }
