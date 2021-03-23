@@ -1,17 +1,48 @@
 
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import {Camera} from "expo-camera";
-import React, { useState } from "react";
+import { Camera } from "expo-camera";
+import * as Location from "expo-location";
+import React, { useState, useEffect } from "react";
 
 export default function CreateScreen({navigation}) {
 
   const [getCamera, setGetCamera] = useState(null)
   const [photo, setPhoto] = useState(null)
+  const [hasPermission, setHasPermission] = useState(null)
+  // const [location, setLocation] = useState(null);
+  
+
+
+    useEffect(() => {
+    (async () => {
+      const {status} = await Camera.requestPermissionsAsync();
+      setHasPermission(status === "granted");
+       await Location.requestPermissionsAsync();
+      // setLocation(stat === "granted")
+    })();      
+  }, []);
+
 
   const isPhoto = async () => {
-      const uri = await getCamera.takePictureAsync();      
-      setPhoto(uri.uri);
-      console.log(photo);    
+    // if (photo) {
+      
+      if (hasPermission) {
+        const uri = await getCamera.takePictureAsync();      
+        setPhoto(uri.uri);
+        // console.log(photo);
+        
+      }
+    // }
+      
+    
+      const locat = await Location.getCurrentPositionAsync({});;
+      
+      const coords = {
+        latitude: locat.coords.latitude,
+        longitude: locat.coords.longitude,
+      };
+    console.log(coords.latitude);
+    console.log(coords.longitude);
   }
 
   const sendPhoto = ()=>{
@@ -39,7 +70,6 @@ if (photo) {
 }
 const styles = StyleSheet.create({
   container: {
-    // position:'relative',
     flex: 1,
   },
   conCamera:{

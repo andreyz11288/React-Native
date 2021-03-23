@@ -22,7 +22,7 @@ export default function LoginScreen({navigation}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // const [isReady, setIsReady] = useState(false);
-  console.log(navigation);
+  // console.log(navigation);
 
   const stateString = () => {
     setEmail("");

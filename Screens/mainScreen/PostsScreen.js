@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import { View, Text, StyleSheet, FlatList, Image } from "react-native";
 
 export default function PostsScreen({ navigation, route }) {
-  console.log(route.params);
+
   const [posts, setPosts] = useState([])
 
   useEffect(() => {
@@ -24,9 +24,8 @@ export default function PostsScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: "#2f4f4f",
     justifyContent: "center",
-    // alignItems: "center",
+    marginTop:30,
    
   },
   imgView: {
