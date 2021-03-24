@@ -3,6 +3,7 @@ import React from "react";
 import {} from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import PostsScreen from "./PostsScreen";
+import PostsCommMapScreen from './Posts/PostsCommMapScreen'
 import ProfileScreen from "./ProfileScreen";
 import CreateScreen from "./CreateScreen";
 import { MaterialCommunityIcons, AntDesign } from "@expo/vector-icons";
@@ -24,8 +25,8 @@ export default function MainScreen(eve) {
             />
           ),
         }}
-        name='Post'
-        component={PostsScreen}
+        name='PostsCommMap'
+        component={PostsCommMapScreen}
       />
       <Tab.Screen
         options={{

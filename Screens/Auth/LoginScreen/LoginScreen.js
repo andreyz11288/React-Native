@@ -11,19 +11,14 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
-// import * as Font from "expo-font";
-// import AppLoading from "expo-app-loading";
 
 
 
 export default function LoginScreen({navigation}) {
   const [isKeyboard, setIsKeyboard] = useState(false);
-  // const [state, setState] = useState(initial)
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [isReady, setIsReady] = useState(false);
-  // console.log(navigation);
-
+  
   const stateString = () => {
     setEmail("");
     setPassword("");
@@ -35,17 +30,7 @@ export default function LoginScreen({navigation}) {
     stateString();
   };
 
-  // if (!isReady) {
-  //   return (
-  //     <AppLoading
-  //       startAsync={loadApp}
-  //       onFinish={() => {
-  //         setIsReady(true);
-  //       }}
-  //       onError={console.warn}
-  //     />
-  //   );
-  // }
+  
 
   return (
     <TouchableWithoutFeedback
