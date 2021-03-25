@@ -6,14 +6,16 @@ import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from "react
 export default function PostsCommMapScreen({navigation, route}) {
   
   const [posts, setPosts] = useState([])
-  const [region, setRegion] = useState(null)
+  const [region, setRegion] = useState({"latitude": 45.4196582,
+  "longitude": 35.0585301})
   
 
   useEffect(() => {
    if (route.params) {
      setPosts(prev=>[...prev, route.params])
      setRegion(Object.values(route.params)[0]);
-   }
+    }
+   
     
   }, [route.params])
   
@@ -25,9 +27,8 @@ export default function PostsCommMapScreen({navigation, route}) {
     keyExtractor={(item, index) => index.toString()} 
     renderItem={({item}) =>(<View style={styles.imgView}><Image style={styles.image} source={{uri:item.photo}}/></View>)} />     
     <TouchableOpacity  style={{width: 250, alignSelf:'center'}} >
-      <Text style={{...styles.text, textAlign:'center'}} onPress={() => {navigation.navigate('Map'); if (region) {
-      navigation.navigate('Map',{region})
-    }}}>Go to Map</Text>
+      <Text style={{...styles.text, textAlign:'center'}} onPress={() =>  navigation.navigate('Map',{region})
+    }>Go to Map</Text>
     </TouchableOpacity>
     <TouchableOpacity  style={{width: 250, alignSelf:'center'}} >
     <Text style={{...styles.text, textAlign:'center'}} onPress={() => navigation.navigate('Comments')}>Go to Comments</Text>

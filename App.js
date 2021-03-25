@@ -6,6 +6,9 @@ import { NavigationContainer } from "@react-navigation/native";
 // import MainScreen from "./Screens/Routing";
 import MainScreen from "./Screens/mainScreen/MainScreen";
 import AuthScreen from "./Screens/Auth/AuthScreen";
+import { Provider } from 'react-redux'
+import {store} from './Redux/store'
+
 
 const loadApp = async () => {
   await Font.loadAsync({
@@ -34,5 +37,8 @@ export default function App() {
   const isLogin = (event) => {
     setIsAuth(event);
   };
-  return <NavigationContainer>{isAuth ? <MainScreen/>:<AuthScreen/>}</NavigationContainer>;
+  return (
+  <Provider store={store}>
+  <NavigationContainer>{isAuth ? <MainScreen/>:<AuthScreen/>}</NavigationContainer>
+  </Provider>)
 }

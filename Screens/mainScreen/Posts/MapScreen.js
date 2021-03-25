@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
-import MapView, {Marker} from 'react-native-maps';
+import MapView, {Marker} from 'react-native-maps'
 
 export default function MapScreen({navigation, route}) {
 
