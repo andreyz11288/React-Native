@@ -1,13 +1,26 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import MapView, {Marker} from 'react-native-maps';
 
-export default function MapScreen({navigation}) {
+export default function MapScreen({navigation, route}) {
+
+  const [region, setRegion] = useState({"latitude": 45.4196582,
+  "longitude": 35.0585301})
+
+
+  useEffect(() => {
+    if (route.params) {
+      setRegion(Object.values(route.params)[0])
+    }
+    
+  }, [route.params])
+
+  console.log({...region});
     return (
         <View style={styles.container}>
-            <TouchableOpacity  style={{width: 250}} >
-    <Text style={{...styles.text, textAlign:'center'}} onPress={() => navigation.navigate('Posts')}>Go to back</Text>
-    </TouchableOpacity>
-            <View style={styles.textHero}><Text style={{...styles.text, fontSize:50}}>MapScreen</Text></View>
+            <MapView style={{flex:1}} initialRegion={{...region,  latitudeDelta: 0.001, longitudeDelta: 0.006 }} >
+              <Marker coordinate={{...region}} ></Marker>
+            </MapView>
         </View>
     )
 }

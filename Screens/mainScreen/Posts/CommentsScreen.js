@@ -5,7 +5,7 @@ export default function CommentsScreen({navigation}) {
     return (
         <View style={styles.container}>
             <TouchableOpacity  style={{width: 250}} >
-    <Text style={{...styles.text, textAlign:'center'}} onPress={() => navigation.navigate('Posts')}>Go to back</Text>
+    <Text style={{...styles.text, textAlign:'center'}} onPress={() => navigation.navigate('PostsCommMap')}>Go to back</Text>
     </TouchableOpacity>
             <View style={styles.textHero}><Text style={{...styles.text, fontSize:50}}>CommentsScreen</Text></View>
         </View>

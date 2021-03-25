@@ -9,6 +9,7 @@ export default function CreateScreen({navigation}) {
   const [getCamera, setGetCamera] = useState(null)
   const [photo, setPhoto] = useState(null)
   const [hasPermission, setHasPermission] = useState(null)
+  const [region, setRegion] = useState(null)
   // const [location, setLocation] = useState(null);
   
 
@@ -24,15 +25,15 @@ export default function CreateScreen({navigation}) {
 
 
   const isPhoto = async () => {
-    // if (photo) {
+    
       
       if (hasPermission) {
         const uri = await getCamera.takePictureAsync();      
         setPhoto(uri.uri);
-        // console.log(photo);
+        
         
       }
-    // }
+    
       
     
       const locat = await Location.getCurrentPositionAsync({});;
@@ -41,14 +42,16 @@ export default function CreateScreen({navigation}) {
         latitude: locat.coords.latitude,
         longitude: locat.coords.longitude,
       };
-    console.log(coords.latitude);
-    console.log(coords.longitude);
+      setRegion(coords)
+    
   }
 
   const sendPhoto = ()=>{
-console.log(navigation.navigate);
+    if (region) {
+      navigation.navigate('PostsCommMap',{region})
+    }
 if (photo) {
-  navigation.navigate('Post',{photo})  
+  navigation.navigate('PostsCommMap',{photo})  
 }
   }
 
