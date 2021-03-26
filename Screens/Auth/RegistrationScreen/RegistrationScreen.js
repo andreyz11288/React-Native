@@ -9,12 +9,20 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
+import { authSingUp } from "../../../Redux/AuthRedux/AuthOperation";
+import { useDispatch } from "react-redux";
+
+
 
 export default function RegistrationScreen({ navigation }) {
   const [isKeyboard, setIsKeyboard] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [login, setLogin] = useState("");
+
+  const state = {login, email, password}
+
+  const dispatch = useDispatch()
 
   const stateString = () => {
     setLogin("");
@@ -24,7 +32,8 @@ export default function RegistrationScreen({ navigation }) {
   const pressButton = () => {
     setIsKeyboard(false);
     Keyboard.dismiss();
-    console.log(login, email, password);
+    dispatch(authSingUp(state))
+    // console.log(state);
     stateString();
   };
 
