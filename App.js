@@ -18,7 +18,7 @@ const loadApp = async () => {
 
 export default function App() {
   const [isReady, setIsReady] = useState(false);
-  const [isAuth, setIsAuth] = useState(true);
+  const [isAuth, setIsAuth] = useState(false);
 
   
   

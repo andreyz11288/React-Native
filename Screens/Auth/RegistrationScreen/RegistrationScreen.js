@@ -102,7 +102,7 @@ export default function RegistrationScreen({ navigation }) {
               activeOpacity={0.5}
               style={styles.btn}
             >
-              <Text style={styles.btnText}>Log in</Text>
+              <Text style={styles.btnText}>Sing up</Text>
             </TouchableOpacity>
             <TouchableOpacity
               ouchableOpacity
