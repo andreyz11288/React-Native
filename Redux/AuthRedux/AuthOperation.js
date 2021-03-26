@@ -1,7 +1,16 @@
 import { exp } from "react-native-reanimated";
 import db from "../../FireBase/config";
 
-const authSingIn = () => async (dispatch, getState) => { }
+const authSingIn = ({email, password}) => async (dispatch, getState) => {
+    try {
+        console.log(email, password);
+        const user = await db.auth().signInWithEmailAndPassword(email, password);
+        console.log('user', user);
+    } catch (error) {
+        console.log('error', error);
+        console.log(error.messaga);
+    }
+ }
 const authSingUp = ({ login, email, password }) => async (dispatch, getState) => {
 
     try {
@@ -13,6 +22,6 @@ const authSingUp = ({ login, email, password }) => async (dispatch, getState) =>
         console.log(error.messaga);
     }
 }
-const authSingout = () => async (dispatch, getState) => { }
+const authSingOut = () => async (dispatch, getState) => { }
 
-export {authSingUp, authSingIn, authSingout}
+export {authSingUp, authSingIn, authSingOut}

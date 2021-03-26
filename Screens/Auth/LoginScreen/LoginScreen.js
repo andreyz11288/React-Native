@@ -11,6 +11,8 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
+import { authSingIn } from "../../../Redux/AuthRedux/AuthOperation";
+import { useDispatch } from "react-redux";
 
 
 
@@ -18,6 +20,12 @@ export default function LoginScreen({navigation}) {
   const [isKeyboard, setIsKeyboard] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const state = {
+    email, password
+  }
+
+  const dispatch = useDispatch()
   
   const stateString = () => {
     setEmail("");
@@ -26,7 +34,7 @@ export default function LoginScreen({navigation}) {
   const pressButton = () => {
     setIsKeyboard(false);
     Keyboard.dismiss();
-    console.log(email, password);
+    dispatch(authSingIn(state))
     stateString();
   };
 
