@@ -3,6 +3,9 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { Camera } from "expo-camera";
 import * as Location from "expo-location";
 import React, { useState, useEffect } from "react";
+import db from '../../FireBase/config'
+
+
 
 export default function CreateScreen({navigation}) {
 
@@ -53,6 +56,17 @@ export default function CreateScreen({navigation}) {
 if (photo) {
   navigation.navigate('PostsCommMap',{photo})  
 }
+uploadPhtoToServer()
+  }
+
+  const uploadPhtoToServer = async () => {
+    const response = await fetch(photo)
+    const file = await response.blob() 
+    const postId = Date.now().toString()
+    await db.storage().ref(`postImage/${postId}`).put(file)
+
+    const processedPhoto = await db.storage().ref("postImage").child(postId).getDownloadURL
+    
   }
 
   return (
