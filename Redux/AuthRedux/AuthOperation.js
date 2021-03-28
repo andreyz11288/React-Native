@@ -30,8 +30,20 @@ const authSingUp = ({ login, email, password }) => async (dispatch, getState) =>
         console.log(error.messaga);
     }
 }
-const authSingOut = () => async (dispatch, getState) => { }
+const authSingOut = () => async (dispatch, getState) => { 
+    await db.auth().signOut()
+    dispatch(AuthSlice.actions.authOutUser({userId: null,
+        nickname: null,
+        stateChange: false}))
+}
 
-const authStateChangeUser = ()=> async (dispatch, getState)=>{}
+const authStateChangeUser = ()=> async (dispatch, getState)=>{
+    db.auth().onAuthStateChanged((user)=>{
+        if (user) {
+            dispatch(AuthSlice.actions.upDateUserProfile({userId: user.uid, nickname: user.displayName}))
+            dispatch(AuthSlice.actions.authStateChange({stateChange: true}))
+        }
+    })
+}
 
-export {authSingUp, authSingIn, authSingOut}
+export {authSingUp, authSingIn, authSingOut, authStateChangeUser}
