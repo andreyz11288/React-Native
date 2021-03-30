@@ -1,9 +1,11 @@
 
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { Camera } from "expo-camera";
 import * as Location from "expo-location";
-import React, { useState, useEffect } from "react";
 import db from '../../FireBase/config'
+import { TextInput } from "react-native-gesture-handler";
+import { useSelector } from "react-redux";
 
 
 
@@ -11,61 +13,56 @@ export default function CreateScreen({navigation}) {
 
   const [getCamera, setGetCamera] = useState(null)
   const [photo, setPhoto] = useState(null)
-  const [hasPermission, setHasPermission] = useState(null)
-  const [region, setRegion] = useState(null)
-  // const [location, setLocation] = useState(null);
+  const [comment, setComment] = useState('')
+  const [location, setLocation] = useState(null)
+  const [processedPhoto, setProcessedPhoto] = useState(null)
   
-
+const {userId, nickname} = useSelector(state => state.auth)
 
     useEffect(() => {
     (async () => {
-      const {status} = await Camera.requestPermissionsAsync();
-      setHasPermission(status === "granted");
+        await Camera.requestPermissionsAsync();
        await Location.requestPermissionsAsync();
-      // setLocation(stat === "granted")
+     
+      const location = await Location.getCurrentPositionAsync({});;
+      setLocation(location)
     })();      
   }, []);
 
 
   const isPhoto = async () => {
+
     
-      
-      if (hasPermission) {
-        const uri = await getCamera.takePictureAsync();      
-        setPhoto(uri.uri);
+        const {uri} = await getCamera.takePictureAsync();      
+        setPhoto(uri);
         
-        
-      }
-    
-      
-    
-      const locat = await Location.getCurrentPositionAsync({});;
-      
-      const coords = {
-        latitude: locat.coords.latitude,
-        longitude: locat.coords.longitude,
-      };
-      setRegion(coords)
-    
+        uploadPhotoToServer()
+        // console.log(processedPhoto);
   }
 
   const sendPhoto = ()=>{
-    if (region) {
-      navigation.navigate('PostsCommMap',{region})
-    }
-if (photo) {
+
   navigation.navigate('PostsCommMap',{photo})  
-}
-uploadPhtoToServer()
+
+  uploadPostToServer()
   }
 
-  const uploadPhtoToServer = async () => {
-    const response = await fetch(photo)
-    const file = await response.blob() 
-    const postId = Date.now().toString()
-    await db.storage().ref(`postImage/${postId}`).put(file)
+  const uploadPostToServer = async () => {
+     console.log(processedPhoto, comment, location.coords, userId, nickname);
+    const createPost = await db.firestore().collection('posts').add({processedPhoto, comment, location: location.coords, userId, nickname})
 
-    const processedPhoto = await db.storage().ref("postImage").child(postId).getDownloadURL
+    
+  }
+
+
+  const uploadPhotoToServer = async () => {
+    const resp = await fetch(photo)
+    const file = await resp.blob() 
+    const uniquePostId = Date.now().toString()
+    await db.storage().ref(`postImage/${uniquePostId}`).put(file)
+
+    const processedPhoto = await db.storage().ref("postImage").child(uniquePostId).getDownloadURL()
+    setProcessedPhoto(processedPhoto)
     
   }
 
@@ -79,6 +76,9 @@ uploadPhtoToServer()
           <Text style={styles.text}>SNAP</Text>
         </TouchableOpacity>
       </Camera>
+      <View style={styles.inputContainer}>
+        <TextInput style={styles.input} onChangeText={setComment}/>
+        </View>
       <TouchableOpacity style={styles.btnSend} onPress={sendPhoto}>
           <Text style={styles.textSend}>SEND</Text>
         </TouchableOpacity>
@@ -141,6 +141,14 @@ const styles = StyleSheet.create({
     textAlign:'center',
     color: "#000000",
     fontSize: 20,
-  }
+  },
+  inputContainer:{
+    marginHorizontal:10,
+  },
+  input:{
+    height:50,
+    borderBottomColor:'#000',
+    borderBottomWidth:1
+  },
 });
 

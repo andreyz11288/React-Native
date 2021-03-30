@@ -8,12 +8,12 @@ export default function MapScreen({navigation, route}) {
   "longitude": 35.0585301})
 
 
-  useEffect(() => {
-    if (route.params) {
-      setRegion(Object.values(route.params)[0])
-    }
+  // useEffect(() => {
+    // if (route.params) {
+      // setRegion(Object.values(route.params)[0])
+    // }
     
-  }, [route.params])
+  // }, [route.params])
 
   console.log({...region});
     return (

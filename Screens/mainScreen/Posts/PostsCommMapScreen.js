@@ -13,7 +13,7 @@ export default function PostsCommMapScreen({navigation, route}) {
   useEffect(() => {
    if (route.params) {
      setPosts(prev=>[...prev, route.params])
-     setRegion(Object.values(route.params)[0]);
+    //  setRegion(Object.values(route.params)[0]);
     }
    
     
