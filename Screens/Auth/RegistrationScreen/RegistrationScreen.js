@@ -33,7 +33,6 @@ export default function RegistrationScreen({ navigation }) {
     setIsKeyboard(false);
     Keyboard.dismiss();
     dispatch(authSingUp(state))
-    // console.log(state);
     stateString();
   };
 

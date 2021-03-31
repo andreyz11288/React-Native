@@ -15,7 +15,7 @@ export default function CreateScreen({navigation}) {
   const [photo, setPhoto] = useState(null)
   const [comment, setComment] = useState('')
   const [location, setLocation] = useState(null)
-  const [processedPhoto, setProcessedPhoto] = useState(null)
+  // const [processedPhoto, setProcessedPhoto] = useState(null)
   
 const {userId, nickname} = useSelector(state => state.auth)
 
@@ -34,36 +34,44 @@ const {userId, nickname} = useSelector(state => state.auth)
 
     
         const {uri} = await getCamera.takePictureAsync();      
-        setPhoto(uri);
+         setPhoto(uri);
         
-        uploadPhotoToServer()
-        // console.log(processedPhoto);
-  }
-
-  const sendPhoto = ()=>{
-
-  navigation.navigate('PostsCommMap',{photo})  
-
-  uploadPostToServer()
-  }
-
-  const uploadPostToServer = async () => {
-     console.log(processedPhoto, comment, location.coords, userId, nickname);
-    const createPost = await db.firestore().collection('posts').add({processedPhoto, comment, location: location.coords, userId, nickname})
+        }
+        
+        const sendPhoto = ()=>{
+          
+          navigation.navigate('PostsCommMap',{photo})  
+          
+          uploadPostToServer()
+        }
+        
+        const uploadPostToServer = async () => {
+          
+          const response = await uploadPhotoToServer()
+          console.log('response:', response);
+          console.log('comment:', comment);
+          console.log('location:', location.coords);
+          console.log('userId:', userId);
+          console.log('nickname:', nickname);
+    const createPost = await db.firestore().collection("posts").add({
+      response, comment, location: location.coords, userId, nickname
+     
+    })
 
     
   }
 
 
   const uploadPhotoToServer = async () => {
-    const resp = await fetch(photo)
-    const file = await resp.blob() 
+  
+    const response = await fetch(photo)
+    const file = await response.blob() 
     const uniquePostId = Date.now().toString()
-    await db.storage().ref(`postImage/${uniquePostId}`).put(file)
+     await db.storage().ref(`postImage/${uniquePostId}`).put(file)
 
     const processedPhoto = await db.storage().ref("postImage").child(uniquePostId).getDownloadURL()
-    setProcessedPhoto(processedPhoto)
     
+    return processedPhoto
   }
 
   return (

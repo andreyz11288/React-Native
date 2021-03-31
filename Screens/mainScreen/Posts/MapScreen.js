@@ -15,7 +15,7 @@ export default function MapScreen({navigation, route}) {
     
   // }, [route.params])
 
-  console.log({...region});
+  // console.log({...region});
     return (
         <View style={styles.container}>
             <MapView style={{flex:1}} initialRegion={{...region,  latitudeDelta: 0.001, longitudeDelta: 0.006 }} >
