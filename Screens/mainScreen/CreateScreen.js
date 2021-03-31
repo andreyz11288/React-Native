@@ -40,7 +40,7 @@ const {userId, nickname} = useSelector(state => state.auth)
         
         const sendPhoto = ()=>{
           
-          navigation.navigate('PostsCommMap',{photo})  
+          navigation.navigate('PostsCommMap') 
           
           uploadPostToServer()
         }
@@ -48,11 +48,7 @@ const {userId, nickname} = useSelector(state => state.auth)
         const uploadPostToServer = async () => {
           
           const response = await uploadPhotoToServer()
-          console.log('response:', response);
-          console.log('comment:', comment);
-          console.log('location:', location.coords);
-          console.log('userId:', userId);
-          console.log('nickname:', nickname);
+         
     const createPost = await db.firestore().collection("posts").add({
       response, comment, location: location.coords, userId, nickname
      
@@ -101,7 +97,7 @@ const styles = StyleSheet.create({
     // flex:1,
     marginHorizontal:5,
     marginTop:30,
-    height:'80%',
+    height:'70%',
     alignItems:'center',
     justifyContent:'flex-end',
   },

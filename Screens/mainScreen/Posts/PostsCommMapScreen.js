@@ -1,23 +1,26 @@
 import React, {useState, useEffect} from "react";
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from "react-native";
-
+import db from "../../../FireBase/config";
 
 
 export default function PostsCommMapScreen({navigation, route}) {
   
   const [posts, setPosts] = useState([])
-  const [region, setRegion] = useState({"latitude": 45.4196582,
+  const [region, setRegion] = useState({"latitude": 40.4196582,
   "longitude": 35.0585301})
   
+  const getAllPhoto = async () => {
+    await db.firestore()
+    .collection("posts")
+      .onSnapshot((data) =>
+        setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))))
+  }
 
   useEffect(() => {
-   if (route.params) {
-     setPosts(prev=>[...prev, route.params])
-    //  setRegion(Object.values(route.params)[0]);
-    }
    
+   getAllPhoto()
     
-  }, [route.params])
+  }, [])
   
 // console.log(region);
     return (
