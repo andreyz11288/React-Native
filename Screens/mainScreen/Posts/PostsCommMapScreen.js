@@ -29,12 +29,15 @@ export default function PostsCommMapScreen({navigation, route}) {
           data={posts}
     keyExtractor={(item, index) => item.id} 
           renderItem={({ item }) => (<View style={styles.imgView}><Image style={styles.image} source={{ uri: item.response }} />
+            <View><Text>
+           Comment: {item.comment}
+            </Text></View>
     <TouchableOpacity  style={{width: 250, alignSelf:'center'}} >
       <Text style={{...styles.text, textAlign:'center'}} onPress={() =>  navigation.navigate('Map',{location: item.location})
     }>Go to Map</Text>
     </TouchableOpacity>
     <TouchableOpacity  style={{width: 250, alignSelf:'center'}} >
-    <Text style={{...styles.text, textAlign:'center'}} onPress={() => navigation.navigate('Comments',{comment: item.comment})}>Go to Comments</Text>
+    <Text style={{...styles.text, textAlign:'center'}} onPress={() => navigation.navigate('Comments',{postId: item.id})}>Go to Comments</Text>
     </TouchableOpacity>
           </View>)} />
     </View>
