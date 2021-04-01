@@ -12,23 +12,24 @@ export default function PostsCommMapScreen({navigation, route}) {
   const getAllPhoto = async () => {
     await db.firestore()
     .collection("posts")
-      .onSnapshot((data) =>
-        setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))))
+      .onSnapshot((data) => setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })
+        )))
+        
   }
 
-  useEffect(() => {
+  useEffect( () =>  {
    
    getAllPhoto()
     
   }, [])
   
-// console.log(region);
+// console.log(posts);
     return (
       <View style={styles.container}>
     <FlatList 
-    data={posts} 
-    keyExtractor={(item, index) => index.toString()} 
-    renderItem={({item}) =>(<View style={styles.imgView}><Image style={styles.image} source={{uri:item.photo}}/></View>)} />     
+          data={posts}
+    keyExtractor={(item, index) => item.id} 
+    renderItem={({item}) =>(<View style={styles.imgView}><Image style={styles.image} source={{uri:item.response}}/></View>)} />     
     <TouchableOpacity  style={{width: 250, alignSelf:'center'}} >
       <Text style={{...styles.text, textAlign:'center'}} onPress={() =>  navigation.navigate('Map',{region})
     }>Go to Map</Text>
