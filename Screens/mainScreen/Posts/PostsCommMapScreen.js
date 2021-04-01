@@ -30,7 +30,7 @@ export default function PostsCommMapScreen({navigation, route}) {
     keyExtractor={(item, index) => item.id} 
           renderItem={({ item }) => (<View style={styles.imgView}><Image style={styles.image} source={{ uri: item.response }} />
             <View><Text>
-           Comment: {item.comment}
+           {item.comment}
             </Text></View>
     <TouchableOpacity  style={{width: 250, alignSelf:'center'}} >
       <Text style={{...styles.text, textAlign:'center'}} onPress={() =>  navigation.navigate('Map',{location: item.location})

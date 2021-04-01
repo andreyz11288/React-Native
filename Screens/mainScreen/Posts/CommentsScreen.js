@@ -1,14 +1,18 @@
-import React, { useState } from 'react'
-import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { View, Text, TouchableOpacity, StyleSheet, TextInput, SafeAreaView, FlatList } from 'react-native'
 import { useSelector } from 'react-redux';
 import db from "../../../FireBase/config";
 
 
 export default function CommentsScreen({route}) {
   const [comment, setComment] = useState('')
+  const [allComments, setAllComments] = useState([])
 
   const {nickname} = useSelector(state => state.auth)
 
+  useEffect(() => {
+    getAllPost()
+  },[])
 
   const {postId} = route.params
 
@@ -18,8 +22,20 @@ export default function CommentsScreen({route}) {
     setComment('')
   }
 
+  const getAllPost = async () => {
+     db.firestore().collection("posts").doc(postId).collection("comments").onSnapshot((data) => setAllComments(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })
+        )))
+  }
+
     return (
       <View style={styles.container}>
+         <SafeAreaView style={styles.container}>
+      <FlatList
+        data={allComments}
+            renderItem={({ item }) => (<View style={styles.commentContainer}><Text>{ item.nickname}: {item.comment}</Text></View>)}
+        keyExtractor={item => item.id}
+      />
+    </SafeAreaView>
         <View style={styles.inputContainer}>
           <TextInput style={styles.input} value={comment} onChangeText={setComment} />
         </View>  
@@ -35,7 +51,15 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: 'flex-end',
       marginTop:30,   
-    },
+  },
+  commentContainer:{
+  borderWidth: 1,
+    borderColor: '#000',
+  borderRadius:10,
+    padding: 5,
+    marginHorizontal: 10,
+    marginTop:5
+  },
    
  
     btnSend:{
