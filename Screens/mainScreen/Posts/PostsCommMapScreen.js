@@ -6,8 +6,7 @@ import db from "../../../FireBase/config";
 export default function PostsCommMapScreen({navigation, route}) {
   
   const [posts, setPosts] = useState([])
-  const [region, setRegion] = useState({"latitude": 40.4196582,
-  "longitude": 35.0585301})
+  
   
   const getAllPhoto = async () => {
     await db.firestore()
@@ -29,14 +28,15 @@ export default function PostsCommMapScreen({navigation, route}) {
     <FlatList 
           data={posts}
     keyExtractor={(item, index) => item.id} 
-    renderItem={({item}) =>(<View style={styles.imgView}><Image style={styles.image} source={{uri:item.response}}/></View>)} />     
+          renderItem={({ item }) => (<View style={styles.imgView}><Image style={styles.image} source={{ uri: item.response }} />
     <TouchableOpacity  style={{width: 250, alignSelf:'center'}} >
-      <Text style={{...styles.text, textAlign:'center'}} onPress={() =>  navigation.navigate('Map',{region})
+      <Text style={{...styles.text, textAlign:'center'}} onPress={() =>  navigation.navigate('Map',{location: item.location})
     }>Go to Map</Text>
     </TouchableOpacity>
     <TouchableOpacity  style={{width: 250, alignSelf:'center'}} >
-    <Text style={{...styles.text, textAlign:'center'}} onPress={() => navigation.navigate('Comments')}>Go to Comments</Text>
+    <Text style={{...styles.text, textAlign:'center'}} onPress={() => navigation.navigate('Comments',{comment: item.comment})}>Go to Comments</Text>
     </TouchableOpacity>
+          </View>)} />
     </View>
     );
   
