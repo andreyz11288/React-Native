@@ -1,22 +1,42 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, FlatList, Image } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import db from '../../FireBase/config'
 import { authSingOut} from '../../Redux/AuthRedux/AuthOperation'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 
 export default function ProfileScreen() {
 
+  const [allPostsUser, setAllPostsUser] = useState([])
+
   const dispatch = useDispatch()
+  const { userId } = useSelector(state => state.auth)
+ 
+
+
+  useEffect(() => {
+    postUser()
+  },[])
 
   const exitPress = () =>{
    dispatch(authSingOut())
   }
 
+  const postUser = async () => {
+    await db.firestore().collection('posts').where('userId', "==", userId)
+      .onSnapshot((data) => setAllPostsUser(data.docs.map((doc) => ({ ...doc.data() }))))
+  }
+
+
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>ProfileScreen</Text>
+      <FlatList 
+        data={allPostsUser}
+        keyExtractor={(item, index) => item.id}
+        renderItem={({ item }) => (<View style={styles.imgView}><Image style={styles.image} source={{ uri: item.response }} />
+        </View>)} />
       <View style={styles.btnContainer}>
       <TouchableOpacity style={styles.btn} onPress={exitPress}><Text style={styles.textBtn}>Exit</Text></TouchableOpacity>
       </View>
@@ -28,12 +48,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#2f4f4f",
     justifyContent: "center",
-    alignItems: "center",
+    // alignItems: "center",
   },
-  text: {
-    color: "#fff",
-    fontSize: 50,
-  },
+  
   btnContainer:{
     flex:1,
     position:'absolute',
@@ -52,5 +69,14 @@ const styles = StyleSheet.create({
   textBtn:{
     fontSize:20,
     padding:5,
-  }
+  },
+  imgView: {
+   justifyContent:'center',
+   alignItems:'center',
+   marginBottom:10,
+  },
+  image:{
+    width:'90%',
+    height:200,
+  },
 });
