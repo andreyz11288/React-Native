@@ -35,8 +35,13 @@ export default function ProfileScreen() {
       <FlatList 
         data={allPostsUser}
         keyExtractor={(item, index) => item.id}
-        renderItem={({ item }) => (<View style={styles.imgView}><Image style={styles.image} source={{ uri: item.response }} />
-        </View>)} />
+        renderItem={({ item }) => (<>
+          <View style={styles.imgView}>
+            <Image style={styles.image} source={{ uri: item.response }} />
+        </View>
+        <View>
+          <Text> {item.comment}</Text>
+          </View></>)} />
       <View style={styles.btnContainer}>
       <TouchableOpacity style={styles.btn} onPress={exitPress}><Text style={styles.textBtn}>Exit</Text></TouchableOpacity>
       </View>

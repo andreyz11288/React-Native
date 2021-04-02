@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, Keyboard } from "react-native";
 import { Camera } from "expo-camera";
 import * as Location from "expo-location";
 import db from '../../FireBase/config'
@@ -38,8 +38,12 @@ const {userId, nickname} = useSelector(state => state.auth)
         
         }
         
-        const sendPhoto = ()=>{
-          
+  const sendPhoto = () => {
+          if (!photo) {
+            return
+          }
+          Keyboard.dismiss();
+          setComment('')
           navigation.navigate('PostsCommMap') 
           
           uploadPostToServer()
@@ -81,7 +85,7 @@ const {userId, nickname} = useSelector(state => state.auth)
         </TouchableOpacity>
       </Camera>
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} onChangeText={setComment}/>
+        <TextInput style={styles.input} value={comment} onChangeText={setComment}/>
         </View>
       <TouchableOpacity style={styles.btnSend} onPress={sendPhoto}>
           <Text style={styles.textSend}>SEND</Text>
